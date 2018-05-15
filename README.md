@@ -4,7 +4,8 @@ I have three kids who are really interested in rockets and space. To understand 
 
 We measured the flight time and then calculated the approximate launch velocity and the maximum altitude. The kids weren't too interested in the mathematics but they helped me in the multiplication, division and addition.
 
-[Click here to see the Rocket Simulation](https://github.com/davidjeyachandran/RocketSimulation/blob/master/rocket-model.html).
+[Click here to see the Rocket Simulation](https://davidjeyachandran.github.io/RocketSimulation/).
+Reload the page and click on the "Launch" button.
 
 We recorded a maximum flight time of 7.3 seconds. Run the progam using default values to see the maximum height.
 
