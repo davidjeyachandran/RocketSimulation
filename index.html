@@ -1,86 +1,98 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <meta charset="utf-8" />
-    <title>Rocket Simulation</title>
-    <style>
-      * { padding: 0; margin: 0; }
-      canvas { background: #eee; display: block; float:right;}
-    </style>
-    <link rel="stylesheet" href="css/skeleton.css">
+  <meta charset="utf-8" />
+  <title>Rocket Simulation</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+
+    canvas {
+      background: #eee;
+      display: block;
+      float: right;
+    }
+  </style>
+  <link rel="stylesheet" href="css/skeleton.css">
 </head>
+
 <body>
 
-<div class="container">
-  <h1>Rocket Simulation</h1>
-  <canvas id="myCanvas" width="200" height="700"></canvas>
+  <div class="container">
+    <h1>Rocket Simulation</h1>
+    <canvas id="myCanvas" width="200" height="700"></canvas>
 
-  <button id="launch" class="btn" href="#" onClick="launch();">Launch</button>
+    <button id="launch" class="btn" href="#" onClick="launch();">Launch</button>
 
-  <div id="data">
-    <br>
-    Height: <span id="data_altura"></span><br>
-    Time: <span id="data_time"></span><br>
-    Velocity: <span id="data_velocity"></span><br>
+    <div id="data">
+      <br>
+      Height: <span id="data_altura"></span><br>
+      Time: <span id="data_time"></span><br>
+      Velocity: <span id="data_velocity"></span><br>
+    </div>
   </div>
-</div>
-<script>
-  var canvas = document.getElementById("myCanvas");
-  var ctx = canvas.getContext("2d");
-  var x = canvas.width/2;
-  var y_max = canvas.height;
-  var y = 0;
-  var t = 0;
-  var u = 35.77;
-  var a = -9.8;
-  var y_scale = 10;
-  var print = 0;
-  var timer;
+  <script>
+    var canvas = document.getElementById("myCanvas");
+    var ctx = canvas.getContext("2d");
+    var x = canvas.width / 2;
+    var y_max = canvas.height;
+    var y = 0;
+    var t = 0;
+    var u = 35.77;
+    var a = -9.8;
+    var y_scale = 10;
+    var print = 0;
+    var timer;
 
-  function launch(){
-    console.log('Launch');
-    timer = setInterval(drawRocket, 10);
-  }
-
-  // console.log(getRocketPosition(u,a,0));
-
-  function drawRocket() {
-    t += 0.01;
-    y = Math.round(getRocketPosition(u,a,t));
-
-    // print data every 10 changes
-    print++;
-    if(print==10) {
-      document.getElementById('data_altura').innerHTML = y;
-      document.getElementById('data_time').innerHTML = t.toFixed(1);
-      document.getElementById('data_velocity').innerHTML = (u+(a*t)).toFixed(1);
-      print=0;
+    function launch() {
+      console.log('Launch');
+      timer = setInterval(drawRocket, 10);
+      t = 0;
     }
 
-    if(y < 0) {
-      console.log('Touchdown')
-      y = 6;
-      clearInterval(timer);
+    // console.log(getRocketPosition(u,a,0));
+
+    function drawRocket() {
+      t += 0.01;
+      y = Math.round(getRocketPosition(u, a, t));
+
+      // print data every 10 changes
+      print++;
+      if (print == 10) {
+        document.getElementById('data_altura').innerHTML = y;
+        document.getElementById('data_time').innerHTML = t.toFixed(1);
+        document.getElementById('data_velocity').innerHTML = (u + (a * t)).toFixed(1);
+        print = 0;
+      }
+
+      if (y < 0) {
+        console.log('Touchdown')
+        y = 0;
+        clearInterval(timer);
+      }
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      //only draw if the rocket is in the canvas
+      if (y * y_scale <= y_max) {
+        ctx.beginPath();
+        ctx.arc(x, y_max - (y * y_scale), 10, 0, Math.PI * 2, false);
+        ctx.fillStyle = "green";
+        ctx.fill();
+        ctx.closePath();
+      }
+
     }
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    //only draw if the rocket is in the canvas
-    if (y* y_scale <= y_max) {
-      ctx.beginPath();
-      ctx.arc(x, y_max-(y* y_scale), 10, 0, Math.PI*2, false);
-      ctx.fillStyle = "green";
-      ctx.fill();
-      ctx.closePath();
+    function getRocketPosition(u, a, t) {
+      var pos = u * t + (0.5 * a * (t * t));
+      return pos;
     }
 
-  }
-
-  function getRocketPosition(u,a,t) {
-    var pos = u*t + (0.5*a*(t*t));
-    return pos;
-  }
-
-</script>
+  </script>
 
 </body>
+
 </html>
